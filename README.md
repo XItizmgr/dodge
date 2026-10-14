@@ -9,6 +9,7 @@
 - python
 - pygame
 - pygbag
+
 pybgab is used to transpile pygame code into web code so it can run smoothly into a browser
 
 # Inspiration
@@ -16,7 +17,7 @@ Just wanted to make a small game and increase my knowledge of python.
 
 
 
-## how to try it
+## How to try it
 
 You can play the game directly in ur browser or run it locally.
 
