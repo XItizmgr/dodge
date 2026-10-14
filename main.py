@@ -1,6 +1,7 @@
-import pygame
-import time
+import asyncio
 import random
+import time
+import pygame
 
 pygame.font.init()
 pygame.init()
@@ -12,7 +13,6 @@ pygame.display.set_caption("Dodge Pumpkin")
 
 bg = pygame.transform.scale(pygame.image.load("bg.jpg"), (WIDTH, HEIGHT))
 
-
 PLAYER_WIDTH = 50
 PLAYER_HEIGHT = 40
 player_img = pygame.transform.scale(
@@ -22,7 +22,6 @@ player_img = pygame.transform.scale(
 speed = 5
 star_width = 35
 star_height = 20
-
 
 star_img = pygame.transform.scale(
     pygame.image.load("pumkin.png").convert_alpha(), (star_width, star_height)
@@ -49,7 +48,7 @@ def draw(player, show, stars, game_over):
     pygame.display.update()
 
 
-def main():
+async def main():
     player = pygame.Rect(400, HEIGHT - PLAYER_HEIGHT - 20, PLAYER_WIDTH, PLAYER_HEIGHT)
 
     run = True
@@ -74,12 +73,11 @@ def main():
             if event.type == pygame.QUIT:
                 run = False
 
-            if event.type == pygame.KEYDOWN :
+            if event.type == pygame.KEYDOWN:
                 if game_over and event.key == pygame.K_r:
                     player = pygame.Rect(
                         400, HEIGHT - PLAYER_HEIGHT - 20, PLAYER_WIDTH, PLAYER_HEIGHT
                     )
-
                     stars.clear()
                     game_over = False
                     started_time = time.time()
@@ -107,6 +105,7 @@ def main():
                     star = pygame.Rect(star_x, -star_height, star_width, star_height)
                     stars.append(star)
                 star_add_increament = max(200, star_add_increament - 50)
+
             for star in stars[:]:
                 star.y += star_vel
                 if star.top > HEIGHT:
@@ -116,8 +115,10 @@ def main():
                     game_over = True
                     break
         draw(player, show_time, stars, game_over)
+
+        await asyncio.sleep(0)
     pygame.quit()
 
 
 if __name__ == "__main__":
-    main()
+    asyncio.run(main())
